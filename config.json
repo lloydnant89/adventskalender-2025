@@ -3,7 +3,7 @@
   "monthIndex": 10,
   "startDay": 1,
   "endDay": 24,
-  "audioPath": "adventskalender-2025/audio",
+  "audioPath": "/adventskalender-2025/audio/",
   "filePrefix": "Kapitel",
   "extensions": ["m4a", "mp3", "ogg", "wav"],
   "useLocalTime": true,

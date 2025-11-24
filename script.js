@@ -330,8 +330,8 @@
   }
 
   async function findAudioForDay(day, cfg){
-    const audioPath = cfg.audioPath || '/audio';
-    const prefix = cfg.filePrefix || 'Kapitel';
+    const audioPath = cfg.audioPath;
+    const prefix = cfg.filePrefix;
     const tryNames = [];
 
     // Varianten: Kapitel1 und Kapitel01
@@ -344,7 +344,7 @@
 
     for(const name of tryNames){
       for(const ext of exts){
-        const url = `${audioPath}/${name}.${ext}`;
+        const url = `${audioPath}${name}.${ext}`;
         try{
           const head = await fetch(url, {method:'HEAD'});
           if(head.ok) return url;
