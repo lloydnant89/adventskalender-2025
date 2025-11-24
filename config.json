@@ -1,0 +1,13 @@
+{
+  "year": 2025,
+  "monthIndex": 10,
+  "startDay": 1,
+  "endDay": 24,
+  "audioPath": "/audio/",
+  "filePrefix": "Kapitel",
+  "extensions": ["m4a", "mp3", "ogg", "wav"],
+  "useLocalTime": true,
+  "backgroundImage": "assets/bg.jpg",
+  "backgroundSize": "cover",
+  "layoutMode": "scattered"
+}
