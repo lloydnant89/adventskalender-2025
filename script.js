@@ -22,6 +22,10 @@
   // STORAGE KEY for opened doors (per year+month so different calendars don't clash)
   const storageKey = `advent_opened_${config.year || 2025}_${config.monthIndex || 11}`;
 
+  // Track clicks on locked doors globally to trigger a warning modal after every 3 attempts
+  let lockedClickCount = 0;
+
+
   function loadOpenedSet(){
     try{
       const raw = localStorage.getItem(storageKey);
@@ -44,6 +48,8 @@
       }
       if(num) num.classList.add('opened');
     }catch(e){ console.error(e); }
+    // reset global locked-click counter when a door is opened
+    try{ lockedClickCount = 0; }catch(_){}
   }
 
   function saveOpenedSet(set){
@@ -52,6 +58,26 @@
 
   function resetOpenedSet(){
     try{ localStorage.removeItem(storageKey); }catch(e){}
+  }
+
+  // Show a modal warning for impatient clicks
+  function showImpatientModal(){
+    const msg = 'NA NA NA. Nicht zu eilig.\nPro Tag nur ein Türchen,\nMilla und Leo!';
+    // modal.setAttribute('aria-hidden','false');
+    modal.style.display = 'flex';
+    modalTitle.textContent = msg;
+    audioContainer.innerHTML = '';
+    audioMsg.textContent = '';
+  }
+
+  function handleLockedClick(day){
+    try{
+      lockedClickCount = (lockedClickCount || 0) + 1;
+      if(lockedClickCount >= 3){
+        lockedClickCount = 0;
+        showImpatientModal();
+      }
+    }catch(e){ console.error('locked click handler failed', e); }
   }
 
   // Create a small reset trigger in the bottom-right of the stage
@@ -82,6 +108,9 @@
           const uniq = Array.from(new Set(toRemove));
           uniq.forEach(k=>{ try{ localStorage.removeItem(k); }catch(_){} });
           console.info('Removed LocalStorage keys:', uniq);
+
+          // reset global locked-click counter as part of reset
+          try{ lockedClickCount = 0; }catch(_){ }
 
           // Immediately reflect the reset in the UI: remove opened classes and badges
           try{
@@ -238,9 +267,9 @@
       doorEl.addEventListener('click', ()=> openDoor(day, cfg));
     } else {
       doorEl.classList.add('locked');
-      doorEl.addEventListener('click', ()=> {
-        const avail = new Date((cfg.year||2025), (cfg.monthIndex||11), day);
-        // flashMessage(doorEl, `Noch geschlossen — verfügbar ab ${avail.toLocaleDateString()}`);
+      doorEl.addEventListener('click', (e)=> {
+        e.stopPropagation();
+        handleLockedClick(day);
       });
     }
     return doorEl;
