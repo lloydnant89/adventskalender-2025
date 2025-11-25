@@ -44,7 +44,7 @@
       const num = stage.querySelector(`.door-num[data-for="${day}"]`);
       if(door) {
         door.classList.add('opened');
-        const badge = door.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
+      //  const badge = door.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
       }
       if(num) num.classList.add('opened');
     }catch(e){ console.error(e); }
@@ -196,13 +196,13 @@
         // ensure door has a lower z-index than the overlay
         doorEl.style.zIndex = '10';
         stage.appendChild(doorEl);
-        const numEl = createNumberOverlay(d, doorEl);
+         const numEl = createNumberOverlay(d, doorEl);
         // if this door was previously opened, mark it visually
-        if(openedSet.has(String(d))){
-          doorEl.classList.add('opened');
-          if(numEl) numEl.classList.add('opened');
-          const badge = doorEl.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
-        }
+         if(openedSet.has(String(d))){
+           doorEl.classList.add('opened');
+           if(numEl) numEl.classList.add('opened');
+        //  const badge = doorEl.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
+         }
 
         
       }
@@ -237,7 +237,7 @@
         if(openedSet.has(String(d))){
           doorEl.classList.add('opened');
           if(numEl) numEl.classList.add('opened');
-          const badge = doorEl.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
+         // const badge = doorEl.querySelector('.badge'); if(badge) badge.textContent = 'Geöffnet';
         }
       }
     }
@@ -259,7 +259,7 @@
     // caption.textContent = `Dezember ${day}`;
 
     // append children except the visible number — number overlay is rendered separately
-    doorEl.appendChild(badge);
+   // doorEl.appendChild(badge);
     doorEl.appendChild(caption);
 
     const open = isDoorOpen(cfg.year || 2025, cfg.monthIndex || 11, day, cfg.useLocalTime !== false);
