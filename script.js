@@ -22,6 +22,27 @@
   // STORAGE KEY for opened doors (per year+month so different calendars don't clash)
   const storageKey = `advent_opened_${config.year || 2025}_${config.monthIndex || 11}`;
 
+  // Adjust audioPath for GitHub Pages vs. local deployment
+  // On GitHub Pages: location.pathname = '/adventskalender-2025/' → use '/adventskalender-2025/audio/'
+  // On local server: location.pathname = '/' → use './audio/' or '/audio/'
+  function normalizeAudioPath(audioPath) {
+    const pathname = window.location.pathname;
+    // Check if we're on a GitHub Pages-like subdirectory deployment
+    // (pathname includes something like '/adventskalender-2025/')
+    if (pathname.includes('/adventskalender-2025/')) {
+      // Replace relative or root paths with GitHub Pages path
+      if (audioPath.startsWith('/audio/')) {
+        return '/adventskalender-2025/audio/';
+      } else if (audioPath.startsWith('../audio/')) {
+        return '/adventskalender-2025/audio/';
+      }
+    }
+    // Otherwise, use the configured path as-is (works for local servers)
+    return audioPath;
+  }
+
+  config.audioPath = normalizeAudioPath(config.audioPath || '/audio/');
+
   // Track clicks on locked doors globally to trigger a warning modal after every 3 attempts
   let lockedClickCount = 0;
 
