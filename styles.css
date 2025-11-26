@@ -124,7 +124,7 @@ body{
 
 /* Locked style */
 .door.locked{
-  opacity:0.55;
+  opacity:1.0;
   filter:grayscale(.02);
   cursor:not-allowed;
 }
